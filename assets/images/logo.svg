@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44" role="img" aria-label="Sadbhaav logo">
+  <circle cx="16" cy="14" r="10" fill="#F1AE44"/>
+  <circle cx="28" cy="14" r="10" fill="#E07A86"/>
+  <circle cx="14" cy="28" r="10" fill="#5B7FB5"/>
+  <circle cx="28" cy="28" r="10" fill="#5FAE7E"/>
+  <circle cx="22" cy="21" r="7" fill="#FFFFFF"/>
+  <path d="M18 21c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z" fill="#2C3374"/>
+</svg>
