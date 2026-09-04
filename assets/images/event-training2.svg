@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="640" height="420" role="img" aria-label="Teacher Training">
+  <defs>
+    <linearGradient id="grad-event-training2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E4F3EA"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" fill="url(#grad-event-training2)"/>
+  <circle cx="51.2" cy="42.0" r="58.800000000000004" fill="#5FAE7E" opacity="0.10"/>
+  <circle cx="588.8000000000001" cy="369.6" r="84.0" fill="#5FAE7E" opacity="0.10"/>
+  <g transform="translate(320.0,210.0) scale(1.909)" fill="none" stroke="#5FAE7E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-34,-8 a12,12 0 1,0 .1,0 M-34,6 c-14,0-20,10-20,22 h40 c0-12-6-22-20-22z M18,-14 a15,15 0 1,0 .1,0 M18,3 c-17,0-25,12-25,26 h50 c0-14-8-26-25-26z M46,0 a9,9 0 1,0 .1,0 M46,10 c-10,0-15,7-15,16 h30 c0-9-5-16-15-16z"/>
+  </g>
+  <text x="320.0" y="361.2" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="23" font-weight="600" fill="#5FAE7E">Teacher Training</text>
+  
+</svg>

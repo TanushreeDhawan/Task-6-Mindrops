@@ -4,16 +4,21 @@ A hand-coded, dependency-free recreation of `sadbhaav.mindrops.com` in plain
 HTML5, CSS3 and vanilla JavaScript (no frameworks, no build step). Built from
 your uploaded homepage HTML export plus the Home/About screenshots.
 
-## What's included in this pass
+## What's included
 
 | Page | Status |
 |---|---|
-| `index.html` (Home) | Fully built from your 7 screenshots: hero slider, "Every Child Counts" checklist, quote banner, "Create future with us" centre badges, 15-card services grid, events + testimonials, reel quote block, volunteer CTA, footer. |
-| `about.html` | Fully built from your 7 screenshots: page banner, foundation intro, "Our Journey" timeline, Mission/Vision, "What We Do", Directors (click a card to highlight it, like the site), services grid, team grid. |
-| `services.html`, `events.html`, `gallery.html`, `csr-partnerships.html`, `contact.html`, `donate.html` | **Placeholder pages** so navigation and the footer never 404. They reuse real copy where we already have it (e.g. every service name, the 3 event cards, the address/email/phone), but are marked for expansion once you share screenshots for those pages. |
+| `index.html` (Home) | Hero slider, "Every Child Counts" checklist, quote banner, "Create future with us" centre badges, 15-card services grid, events + auto-rotating testimonial carousel, video-placeholder story block, volunteer CTA, footer. |
+| `about.html` | Page banner, foundation intro, "Our Journey" timeline image, Mission/Vision, "What We Do", Directors grid (**hover** a card to see it highlight dark navy, per spec), sliding Team carousel with arrows + dots, services grid. |
+| `services.html` | Sticky left sidebar of 13 service tabs + a 3-column grid of service cards. Clicking a sidebar tab (or a card's "Read More") smooth-scrolls to and highlights the matching card and syncs the active tab; scroll-spy keeps the sidebar in sync as you scroll. Sidebar collapses to a horizontal scrollable bar under 992px. |
+| `gallery.html` | ALL / 2025 / 2022 filter buttons (vanilla JS show/hide), responsive photo grid with hover zoom-in-place. |
+| `csr-partnerships.html` | Hero, 13-card "Why Partner" grid, 4 CSR-opportunity pillars, alternating Infrastructure/Outreach image+checklist blocks, two-column compliance comparison, CSR projects table, and a Contact-info + Enquiry form split layout. |
+| `events.html` | "Upcoming Events" empty state, "Past Events" as a sliding carousel (date badges, arrows + dots). |
+| `contact.html` | Get-in-touch form (service dropdown, textarea), Address/Contact info cards, full-width Google Maps embed. |
+| `donate.html` | Simple donate CTA page (kept from the first pass — no screenshot supplied yet for a full redesign). |
 
-Send the remaining screenshots whenever you're ready and I'll flesh those six
-pages out to the same fidelity as Home/About.
+Every page shares the same header, footer and icon sprite, and the same
+`css/styles.css` / `js/script.js`.
 
 ## Structure
 
@@ -75,13 +80,22 @@ python3 -m http.server 8000
 
 ## Known simplifications to revisit
 
-- The "Our Journey" timeline is rebuilt as a scrollable HTML/CSS timeline
-  (numbered steps) rather than the original single infographic image, since
-  the exact years in your screenshot were too small to read reliably.
-- The Directors "click to highlight" behaviour and the Team grid mirror the
-  interaction implied by your screenshots (an active/highlighted card,
-  dot-style pagination) using real vanilla JS — wire in more team members by
-  duplicating a `.person-card` block.
-- Contact form and Donate page are structured but not wired to a backend or
-  payment gateway (none was provided) — the form shows a confirmation note
-  instead of actually sending mail.
+- "Our Journey" is a single generated SVG placeholder image (`assets/images/our-journey-placeholder.svg`)
+  standing in for the original infographic — swap the `<img>` src in `about.html`
+  for the real graphic whenever you have it.
+- All photos across every page (hero slides, service photos, gallery shots,
+  event thumbnails, director/team portraits, CSR imagery) are generated SVG
+  placeholders sized to match their containers exactly — see "About the
+  images" below for how to swap in real files.
+- The Services page reuses the sidebar-driven anchor/scroll-spy pattern the
+  live site uses (all cards render inline; a click scrolls + highlights the
+  matching card) rather than hiding/showing separate panels, since that's
+  what the screenshots show.
+- Contact and CSR enquiry forms are structured and validate client-side, but
+  aren't wired to a backend or payment gateway (none was provided) — they
+  show a confirmation note instead of actually sending data.
+- The Contact page map is a keyless Google Maps `output=embed` iframe
+  centered on "Jalaram Society, Piplod, Surat" — swap in an API-key'd embed
+  if you need custom pin styling.
+- `donate.html` is still the simple CTA page from the first pass — send a
+  screenshot whenever you have one and I'll match it exactly.

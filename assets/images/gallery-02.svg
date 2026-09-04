@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480" role="img" aria-label="Gallery 02">
+  <defs>
+    <linearGradient id="grad-gallery-02" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E3EDF7"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#grad-gallery-02)"/>
+  <circle cx="51.2" cy="48.0" r="67.2" fill="#5B7FB5" opacity="0.10"/>
+  <circle cx="588.8000000000001" cy="422.4" r="96.0" fill="#5B7FB5" opacity="0.10"/>
+  <g transform="translate(320.0,240.0) scale(2.182)" fill="none" stroke="#5B7FB5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-30,10 a14,14 0 1,0 0.1,0 M-30,24 c-16,0-24,10-24,22 h48 c0-12-8-22-24-22z M30,10 a14,14 0 1,0 0.1,0 M30,24 c16,0,24,10,24,22 h-48 c0-12,8-22,24-22z M0,-2 a16,16 0 1,0 0.1,0 M0,14 c-19,0-30,12-30,26 h60 c0-14-11-26-30-26z"/>
+  </g>
+  <text x="320.0" y="412.8" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="26" font-weight="600" fill="#5B7FB5">Gallery 02</text>
+  
+</svg>
