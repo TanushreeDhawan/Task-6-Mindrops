@@ -130,9 +130,10 @@ function initCarousel(root) {
   const perTablet = parseInt(root.dataset.perTablet || "2", 10);
   const perMobile = parseInt(root.dataset.perMobile || "1", 10);
   const autoplayMs = parseInt(root.dataset.autoplay || "0", 10);
+  const isInfinite = root.dataset.infinite === "true";
 
   let perView = perDesktop;
-  let page = 0;
+  let currentIndex = 0;
   let timer;
 
   function computePerView() {
@@ -152,7 +153,7 @@ function initCarousel(root) {
       item.style.flexBasis = (100 / perView) + "%";
       item.style.maxWidth = (100 / perView) + "%";
     });
-    page = Math.min(page, pageCount() - 1);
+    currentIndex = Math.min(currentIndex, pageCount() - 1);
     renderDots();
     update();
   }
@@ -174,9 +175,15 @@ function initCarousel(root) {
 
   function update() {
     const total = pageCount();
-    track.style.transform = "translateX(-" + (page * 100) + "%)";
+    if (isInfinite && total > 1) {
+      track.style.transition = "transform 0.45s ease";
+      track.style.transform = "translateX(-" + (currentIndex * 100) + "%)";
+    } else {
+      track.style.transition = "transform 0.45s ease";
+      track.style.transform = "translateX(-" + (currentIndex * 100) + "%)";
+    }
     if (dotsWrap) {
-      Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle("is-active", i === page));
+      Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle("is-active", i === currentIndex));
     }
     if (prevBtn) prevBtn.style.visibility = total <= 1 ? "hidden" : "visible";
     if (nextBtn) nextBtn.style.visibility = total <= 1 ? "hidden" : "visible";
@@ -184,13 +191,32 @@ function initCarousel(root) {
 
   function goTo(i) {
     const total = pageCount();
-    page = (i + total) % total;
+    if (isInfinite && total > 1) {
+      currentIndex = (i + total) % total;
+    } else {
+      currentIndex = Math.max(0, Math.min(i, total - 1));
+    }
     update();
     restart();
   }
 
-  function next() { goTo(page + 1); }
-  function prev() { goTo(page - 1); }
+  function next() {
+    const total = pageCount();
+    if (isInfinite) {
+      goTo((currentIndex + 1) % total);
+    } else {
+      goTo(currentIndex + 1);
+    }
+  }
+
+  function prev() {
+    const total = pageCount();
+    if (isInfinite) {
+      goTo((currentIndex - 1 + total) % total);
+    } else {
+      goTo(currentIndex - 1);
+    }
+  }
 
   function restart() {
     clearInterval(timer);

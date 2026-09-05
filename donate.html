@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Donate — Sadbhaav Child Development Foundation</title>
 <meta name="description" content="Support Sadbhaav Child Development Foundation.">
-<link rel="icon" href="assets/images/logo.svg" type="image/svg+xml">
+<link rel="icon" href="assets_new/main logo.jpg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
@@ -77,7 +77,7 @@
 
   <div class="container nav-wrap">
     <a href="index.html" class="brand">
-      <img src="assets/images/logo.svg" alt="Sadbhaav logo">
+      <img src="assets_new/Sadbhav-01-transparent-logo.png" alt="Sadbhaav logo">
       <span class="brand-text"><strong>Sadbhaav</strong><span>CHILD DEVELOPMENT FOUNDATION</span></span>
     </a>
 
@@ -107,17 +107,63 @@
 
   <section class="page-banner">
     <div class="container">
-      <h1>Donate</h1>
-      <span class="eyebrow">YOUR SUPPORT HELPS A CHILD THRIVE</span>
+      <h1>Donation</h1>
+      <span class="eyebrow">SADBHAAV</span>
     </div>
   </section>
 
-  <section class="section text-center">
-    <div class="container" style="max-width:720px;">
-      <h2>Join your hand with us</h2>
-      <p>Therapy costs, travel, and medical expenses add up quickly for families of children with developmental needs. Your contribution helps Sadbhaav offer concessional-rate services to families who need it most.</p>
-      <p style="color:var(--gray-text);">Bank transfer details, UPI ID, and 80G tax-exemption information will be added here once shared.</p>
-      <a href="mailto:sadbhaavcdf@gmail.com" class="btn btn--primary">Contact us to donate</a>
+  <section class="section">
+    <div class="container" style="max-width:780px;">
+      <h2 style="text-align:left; margin-bottom:8px;">Make a Donation</h2>
+      <p style="text-align:left; margin-bottom:24px;">Your contribution can make a difference. Fill in your details below to donate securely through Razorpay.</p>
+
+      <form class="donate-form" onsubmit="event.preventDefault(); handleDemoFormSubmit(this, document.getElementById('donate-form-note'));">
+        <div class="form-row">
+          <input class="field" type="text" name="first_name" placeholder="First Name*" required>
+          <input class="field" type="text" name="last_name" placeholder="Last Name">
+        </div>
+        <div class="form-row">
+          <input class="field" type="email" name="email" placeholder="Email*" required>
+          <input class="field" type="tel" name="phone" placeholder="Phone*" required>
+        </div>
+        <div class="form-row single">
+          <input class="field" type="text" name="address" placeholder="Address">
+        </div>
+        <div class="form-row">
+          <input class="field" type="text" name="city" placeholder="City*" required>
+          <input class="field" type="text" name="state" placeholder="State*" required>
+        </div>
+        <div class="form-row">
+          <input class="field" type="text" name="zip" placeholder="ZIP / Postal code*" required>
+          <select class="field" name="country">
+            <option value="India" selected>India</option>
+          </select>
+        </div>
+
+        <div class="donate-purpose">
+          <label class="purpose-label">Donation Purpose</label>
+          <div class="purpose-options">
+            <label class="radio-label"><input type="radio" name="purpose" value="Corpus"> Corpus</label>
+            <label class="radio-label"><input type="radio" name="purpose" value="Sponsoring a child"> Sponsoring a child</label>
+            <label class="radio-label"><input type="radio" name="purpose" value="General" checked> General</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <input class="field" type="text" name="pan" placeholder="PAN NO.*" required>
+          <div class="amount-field">
+            <input class="field" type="number" name="amount" value="500.00" min="1" step="0.01" required>
+            <span class="currency-label">INR</span>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <textarea class="field" name="notes" rows="4" placeholder=""></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--primary donate-btn">Donate</button>
+        <p id="donate-form-note" class="form-note">Thanks! This demo form does not send data yet — connect it to Razorpay or your payment gateway.</p>
+      </form>
     </div>
   </section>
 
@@ -129,7 +175,7 @@
     <div class="footer-grid">
       <div>
         <div class="footer-brand">
-          <img src="assets/images/logo.svg" alt="Sadbhaav logo">
+          <img src="assets_new/sadbhav logo white bg.webp" alt="Sadbhaav logo">
           <strong>Sadbhaav<br>Child Development Foundation</strong>
         </div>
         <ul class="footer-contact">
