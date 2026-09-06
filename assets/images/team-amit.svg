@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300" role="img" aria-label="AG portrait placeholder">
-  <rect width="300" height="300" fill="#E3EDF7"/>
-  <circle cx="150" cy="115" r="55" fill="#5B7FB5" opacity="0.85"/>
-  <path d="M40,300 C40,210 90,175 150,175 C210,175 260,210 260,300 Z" fill="#5B7FB5" opacity="0.85"/>
-  <text x="150" y="290" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="1" fill="transparent">AG</text>
-</svg>

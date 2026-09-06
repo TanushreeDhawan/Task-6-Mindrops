@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Donate — Sadbhaav Child Development Foundation</title>
-<meta name="description" content="Support Sadbhaav Child Development Foundation.">
-<link rel="icon" href="assets_new/main logo.jpg" type="image/svg+xml">
+<meta name="description" content="Make a secure donation to Sadbhaav Child Development Foundation to support children with developmental needs.">
+<link rel="icon" href="assets/img/sadbhaav-logo-transparent.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
@@ -77,8 +77,7 @@
 
   <div class="container nav-wrap">
     <a href="index.html" class="brand">
-      <img src="assets_new/Sadbhav-01-transparent-logo.png" alt="Sadbhaav logo">
-      <span class="brand-text"><strong>Sadbhaav</strong><span>CHILD DEVELOPMENT FOUNDATION</span></span>
+      <img src="assets/img/sadbhaav-logo-transparent.png" alt="Sadbhaav Child Development Foundation" class="brand-logo">
     </a>
 
     <nav class="main-nav" id="main-nav">
@@ -113,57 +112,72 @@
   </section>
 
   <section class="section">
-    <div class="container" style="max-width:780px;">
-      <h2 style="text-align:left; margin-bottom:8px;">Make a Donation</h2>
-      <p style="text-align:left; margin-bottom:24px;">Your contribution can make a difference. Fill in your details below to donate securely through Razorpay.</p>
+    <div class="container" style="max-width:820px;">
+      <div class="form-card" style="padding:40px 44px;">
+        <h2 style="margin-bottom:10px;">Make a Donation</h2>
+        <p style="margin-bottom:28px;">Your contribution can make a difference. Fill in your details below to donate securely through Razorpay.</p>
 
-      <form class="donate-form" onsubmit="event.preventDefault(); handleDemoFormSubmit(this, document.getElementById('donate-form-note'));">
-        <div class="form-row">
-          <input class="field" type="text" name="first_name" placeholder="First Name*" required>
-          <input class="field" type="text" name="last_name" placeholder="Last Name">
-        </div>
-        <div class="form-row">
-          <input class="field" type="email" name="email" placeholder="Email*" required>
-          <input class="field" type="tel" name="phone" placeholder="Phone*" required>
-        </div>
-        <div class="form-row single">
-          <input class="field" type="text" name="address" placeholder="Address">
-        </div>
-        <div class="form-row">
-          <input class="field" type="text" name="city" placeholder="City*" required>
-          <input class="field" type="text" name="state" placeholder="State*" required>
-        </div>
-        <div class="form-row">
-          <input class="field" type="text" name="zip" placeholder="ZIP / Postal code*" required>
-          <select class="field" name="country">
-            <option value="India" selected>India</option>
-          </select>
-        </div>
-
-        <div class="donate-purpose">
-          <label class="purpose-label">Donation Purpose</label>
-          <div class="purpose-options">
-            <label class="radio-label"><input type="radio" name="purpose" value="Corpus"> Corpus</label>
-            <label class="radio-label"><input type="radio" name="purpose" value="Sponsoring a child"> Sponsoring a child</label>
-            <label class="radio-label"><input type="radio" name="purpose" value="General" checked> General</label>
+        <form onsubmit="event.preventDefault(); handleDemoFormSubmit(this, document.getElementById('donate-form-note'));">
+          <div class="form-grid">
+            <input class="field" type="text" name="first_name" placeholder="First Name*" required>
+            <input class="field" type="text" name="last_name" placeholder="Last Name">
           </div>
-        </div>
 
-        <div class="form-row">
-          <input class="field" type="text" name="pan" placeholder="PAN NO.*" required>
-          <div class="amount-field">
-            <input class="field" type="number" name="amount" value="500.00" min="1" step="0.01" required>
-            <span class="currency-label">INR</span>
+          <div class="form-grid">
+            <input class="field" type="email" name="email" placeholder="Email*" required>
+            <div class="field-wrap">
+              <span class="char-counter" id="donate-phone-counter">0 / 10</span>
+              <input class="field" type="tel" id="donate-phone" name="phone" placeholder="Phone*" maxlength="10" required>
+            </div>
           </div>
-        </div>
 
-        <div class="form-row single">
-          <textarea class="field" name="notes" rows="4" placeholder=""></textarea>
-        </div>
+          <div class="form-grid single">
+            <input class="field" type="text" name="address" placeholder="Address">
+          </div>
 
-        <button type="submit" class="btn btn--primary donate-btn">Donate</button>
-        <p id="donate-form-note" class="form-note">Thanks! This demo form does not send data yet — connect it to Razorpay or your payment gateway.</p>
-      </form>
+          <div class="form-grid">
+            <input class="field" type="text" name="city" placeholder="City*" required>
+            <input class="field" type="text" name="state" placeholder="State*" required>
+          </div>
+
+          <div class="form-grid">
+            <input class="field" type="text" name="zip" placeholder="ZIP / Postal code*" required>
+            <select class="field" name="country">
+              <option>India</option>
+              <option>United States</option>
+              <option>United Kingdom</option>
+              <option>United Arab Emirates</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-grid single">
+            <div>
+              <span class="field-label" style="margin-bottom:10px;">Donation Purpose</span>
+              <div class="radio-group">
+                <label><input type="radio" name="purpose" value="Corpus" checked> Corpus</label>
+                <label><input type="radio" name="purpose" value="Sponsoring a child"> Sponsoring a child</label>
+                <label><input type="radio" name="purpose" value="General"> General</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <input class="field" type="text" name="pan" placeholder="PAN NO.*" required>
+            <div class="field-with-suffix">
+              <input class="field" type="number" name="amount" value="500.00" min="1" step="0.01" aria-label="Donation amount">
+              <span class="suffix">INR</span>
+            </div>
+          </div>
+
+          <div class="form-grid single">
+            <textarea class="field" name="message" placeholder="Anything you'd like us to know?" rows="4"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary">Donate</button>
+          <p id="donate-form-note" class="form-note">Thanks for your generosity! This demo form isn't connected to Razorpay yet — wire up your payment gateway here to go live.</p>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -172,41 +186,33 @@
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">
-          <img src="assets_new/sadbhav logo white bg.webp" alt="Sadbhaav logo">
-          <strong>Sadbhaav<br>Child Development Foundation</strong>
-        </div>
-        <ul class="footer-contact">
-          <li><svg><use href="#icon-pin"/></svg> Regd. Office: 1, Jay Jalaramnagar Society, Piplod Gam Road, Piplod, Surat 395007.</li>
-          <li><svg><use href="#icon-mail"/></svg> sadbhaavcdf@gmail.com</li>
-          <li><svg><use href="#icon-phone"/></svg> +91 9726633272</li>
-        </ul>
-      </div>
-      <div class="footer">
-        <h4>Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Service</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="csr-partnerships.html">CSR Partnerships</a></li>
-          <li><a href="events.html">Event</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="footer">
-        <h4>Connect with us</h4>
-        <p style="color:#cdd0e6; font-size:0.92rem;">Follow our journey and stories from the centre.</p>
+    <div class="footer-top">
+      <a href="index.html" class="footer-brand"><img src="assets/img/sadbhaav-logo-white-bg.jpg" alt="Sadbhaav Child Development Foundation"></a>
+      <div class="footer-info-item"><svg><use href="#icon-pin"/></svg><p>Regd. Office: 1, Jay Jalaramnagar Society, Piplod Gam Road, Piplod, Surat 395007.</p></div>
+      <div class="footer-info-item"><svg><use href="#icon-mail"/></svg><a href="mailto:sadbhaavcdf@gmail.com">sadbhaavcdf@gmail.com</a></div>
+      <div class="footer-info-item"><svg><use href="#icon-phone"/></svg><a href="tel:+919726633272">+91 9726633272</a></div>
+    </div>
+
+    <div class="footer-bottom-row">
+      <nav class="footer-links" aria-label="Footer">
+        <a href="about.html">About</a>
+        <a href="services.html">Service</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="csr-partnerships.html">CSR Partnerships</a>
+        <a href="events.html">Event</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+      <div class="footer-actions">
         <div class="footer-social">
           <a href="#" aria-label="Facebook"><svg><use href="#icon-facebook"/></svg></a>
           <a href="#" aria-label="Instagram"><svg><use href="#icon-instagram"/></svg></a>
           <a href="#" aria-label="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a>
           <a href="#" aria-label="YouTube"><svg><use href="#icon-youtube"/></svg></a>
         </div>
-        <a href="donate.html" class="btn btn--primary" style="margin-top:22px;">Donate</a>
+        <a href="donate.html" class="btn btn--primary">Donate</a>
       </div>
     </div>
+
     <div class="footer-bottom">
       &copy; 2025 Sadbhaav Child Development Foundation. Design and Developed by <a href="#">Mindrops</a>.
     </div>

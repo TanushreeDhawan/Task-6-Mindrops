@@ -8,9 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
   initActiveNavLink();
   initHeroSlider();
   initTopbarHideOnScroll();
+  initScrollTopButton();
   document.querySelectorAll(".carousel").forEach(initCarousel);
   initGalleryFilters();
   initServiceSidebar();
+  initDonationForm();
 });
 
 /* ---------------- Mobile menu ---------------- */
@@ -105,7 +107,7 @@ function initHeroSlider() {
 
 /* ---------------- Generic multi-item carousel ----------------
    Markup:
-   <div class="carousel" data-per-desktop="3" data-per-tablet="2" data-per-mobile="1" data-autoplay="0">
+   <div class="carousel" data-per-desktop="3" data-per-tablet="2" data-per-mobile="1" data-autoplay="0" data-infinite="false">
      <div class="carousel-viewport">
        <div class="carousel-track" data-track>
          <div class="carousel-item">...</div>
@@ -116,11 +118,16 @@ function initHeroSlider() {
      <button class="carousel-arrow carousel-arrow--next">&rsaquo;</button>
      <div class="carousel-dots"></div>
    </div>
+
+   data-infinite="true" clones the item set before and after itself so
+   that scrolling past the last card seamlessly continues into the first
+   card (and vice-versa) with no visible "snap back" — used by the Team
+   carousel per spec.
 ------------------------------------------------------------- */
 function initCarousel(root) {
   const track = root.querySelector("[data-track]");
-  const items = track ? Array.from(track.children) : [];
-  if (!track || !items.length) return;
+  const originalItems = track ? Array.from(track.children) : [];
+  if (!track || !originalItems.length) return;
 
   const prevBtn = root.querySelector(".carousel-arrow--prev");
   const nextBtn = root.querySelector(".carousel-arrow--next");
@@ -130,11 +137,14 @@ function initCarousel(root) {
   const perTablet = parseInt(root.dataset.perTablet || "2", 10);
   const perMobile = parseInt(root.dataset.perMobile || "1", 10);
   const autoplayMs = parseInt(root.dataset.autoplay || "0", 10);
-  const isInfinite = root.dataset.infinite === "true";
+  const infinite = root.dataset.infinite === "true" && originalItems.length > 1;
 
+  const realCount = originalItems.length;
   let perView = perDesktop;
-  let currentIndex = 0;
+  let page = 0;
   let timer;
+  let cloneBefore = [];
+  let cloneAfter = [];
 
   function computePerView() {
     const w = window.innerWidth;
@@ -143,79 +153,147 @@ function initCarousel(root) {
     return perDesktop;
   }
 
-  function pageCount() {
-    return Math.max(1, Math.ceil(items.length / perView));
+  function realPageCount() {
+    return Math.max(1, Math.ceil(realCount / perView));
   }
 
-  function layout() {
+  function buildClones() {
+    // Remove any previously-inserted clones first.
+    cloneBefore.forEach((n) => n.remove());
+    cloneAfter.forEach((n) => n.remove());
+    cloneBefore = originalItems.map((n) => n.cloneNode(true));
+    cloneAfter = originalItems.map((n) => n.cloneNode(true));
+    cloneBefore.forEach((n) => n.setAttribute("aria-hidden", "true"));
+    cloneAfter.forEach((n) => n.setAttribute("aria-hidden", "true"));
+    const firstOriginal = originalItems[0];
+    cloneBefore.forEach((n) => track.insertBefore(n, firstOriginal));
+    cloneAfter.forEach((n) => track.appendChild(n));
+  }
+
+  function currentItems() {
+    return Array.from(track.children);
+  }
+
+  function pageCount() {
+    return Math.max(1, Math.ceil(currentItems().length / perView));
+  }
+
+  function layout(resetToStart) {
     perView = computePerView();
-    items.forEach((item) => {
+
+    if (infinite) {
+      buildClones();
+    }
+
+    currentItems().forEach((item) => {
       item.style.flexBasis = (100 / perView) + "%";
       item.style.maxWidth = (100 / perView) + "%";
     });
-    currentIndex = Math.min(currentIndex, pageCount() - 1);
-    renderDots();
-    update();
+
+    if (infinite) {
+      const R = realPageCount();
+      page = R; // start at the first real page (middle block)
+      renderDots(R);
+      jumpInstant(page);
+    } else {
+      page = Math.min(page, pageCount() - 1);
+      renderDots(pageCount());
+      update();
+    }
   }
 
-  function renderDots() {
+  function renderDots(total) {
     if (!dotsWrap) return;
     dotsWrap.innerHTML = "";
-    const total = pageCount();
     if (total <= 1) { dotsWrap.style.display = "none"; return; }
     dotsWrap.style.display = "";
     for (let i = 0; i < total; i++) {
       const dot = document.createElement("button");
       dot.type = "button";
       dot.setAttribute("aria-label", "Go to page " + (i + 1));
-      dot.addEventListener("click", () => goTo(i));
+      dot.addEventListener("click", () => {
+        if (infinite) goToReal(i); else goTo(i);
+      });
       dotsWrap.appendChild(dot);
     }
   }
 
+  function activeDotIndex() {
+    if (!infinite) return page;
+    const R = realPageCount();
+    return ((page - R) % R + R) % R;
+  }
+
+  function syncDots() {
+    if (!dotsWrap) return;
+    const active = activeDotIndex();
+    Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle("is-active", i === active));
+  }
+
+  function jumpInstant(p) {
+    track.style.transition = "none";
+    track.style.transform = "translateX(-" + (p * 100) + "%)";
+    // force reflow so the next transition re-enables properly
+    void track.offsetHeight;
+    track.style.transition = "";
+    syncDots();
+    updateArrowVisibility();
+  }
+
+  function updateArrowVisibility() {
+    const total = infinite ? pageCount() : pageCount();
+    const hide = total <= 1;
+    if (prevBtn) prevBtn.style.visibility = hide ? "hidden" : "visible";
+    if (nextBtn) nextBtn.style.visibility = hide ? "hidden" : "visible";
+  }
+
   function update() {
-    const total = pageCount();
-    if (isInfinite && total > 1) {
-      track.style.transition = "transform 0.45s ease";
-      track.style.transform = "translateX(-" + (currentIndex * 100) + "%)";
-    } else {
-      track.style.transition = "transform 0.45s ease";
-      track.style.transform = "translateX(-" + (currentIndex * 100) + "%)";
-    }
-    if (dotsWrap) {
-      Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle("is-active", i === currentIndex));
-    }
-    if (prevBtn) prevBtn.style.visibility = total <= 1 ? "hidden" : "visible";
-    if (nextBtn) nextBtn.style.visibility = total <= 1 ? "hidden" : "visible";
+    track.style.transform = "translateX(-" + (page * 100) + "%)";
+    syncDots();
+    updateArrowVisibility();
   }
 
   function goTo(i) {
     const total = pageCount();
-    if (isInfinite && total > 1) {
-      currentIndex = (i + total) % total;
-    } else {
-      currentIndex = Math.max(0, Math.min(i, total - 1));
-    }
+    page = (i + total) % total;
     update();
     restart();
   }
 
-  function next() {
-    const total = pageCount();
-    if (isInfinite) {
-      goTo((currentIndex + 1) % total);
-    } else {
-      goTo(currentIndex + 1);
+  function goToReal(i) {
+    const R = realPageCount();
+    page = R + i;
+    update();
+    restart();
+  }
+
+  function handleInfiniteBoundary() {
+    const R = realPageCount();
+    if (page >= 2 * R) {
+      page -= R;
+      jumpInstant(page);
+    } else if (page < R) {
+      page += R;
+      jumpInstant(page);
     }
   }
 
-  function prev() {
-    const total = pageCount();
-    if (isInfinite) {
-      goTo((currentIndex - 1 + total) % total);
-    } else {
-      goTo(currentIndex - 1);
+  function next() {
+    page += 1;
+    update();
+    if (infinite) {
+      track.addEventListener("transitionend", handleInfiniteBoundary, { once: true });
     }
+    restart();
+  }
+
+  function prev() {
+    page -= 1;
+    update();
+    if (infinite) {
+      track.addEventListener("transitionend", handleInfiniteBoundary, { once: true });
+    }
+    restart();
   }
 
   function restart() {
@@ -226,9 +304,26 @@ function initCarousel(root) {
   if (nextBtn) nextBtn.addEventListener("click", next);
   if (prevBtn) prevBtn.addEventListener("click", prev);
 
-  window.addEventListener("resize", layout);
+  window.addEventListener("resize", () => layout());
   layout();
   restart();
+}
+
+/* ---------------- Scroll-to-top floating button ---------------- */
+function initScrollTopButton() {
+  let btn = document.querySelector(".scroll-top-btn");
+  if (!btn) {
+    btn = document.createElement("button");
+    btn.className = "scroll-top-btn";
+    btn.type = "button";
+    btn.setAttribute("aria-label", "Scroll back to top");
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>';
+    document.body.appendChild(btn);
+  }
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  window.addEventListener("scroll", () => {
+    btn.classList.toggle("is-visible", window.scrollY > 420);
+  }, { passive: true });
 }
 
 /* ---------------- Hide top contact bar on scroll ---------------- */
@@ -317,6 +412,18 @@ function initServiceSidebar() {
 /* ---------------- Simple demo form handler (no backend wired) ---------------- */
 function handleDemoFormSubmit(form, noteEl) {
   form.reset();
+  form.querySelectorAll("input, textarea").forEach((el) => el.dispatchEvent(new Event("input")));
   if (noteEl) noteEl.style.display = "block";
   return false;
+}
+
+/* ---------------- Donation form: live phone character counter ---------------- */
+function initDonationForm() {
+  const phone = document.getElementById("donate-phone");
+  const counter = document.getElementById("donate-phone-counter");
+  if (!phone || !counter) return;
+  const max = phone.getAttribute("maxlength") || "10";
+  const update = () => { counter.textContent = phone.value.length + " / " + max; };
+  phone.addEventListener("input", update);
+  update();
 }

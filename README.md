@@ -1,101 +1,94 @@
-# Sadbhaav Child Development Foundation — Static Site (v1)
+# Sadbhaav Child Development Foundation — Static Site
 
 A hand-coded, dependency-free recreation of `sadbhaav.mindrops.com` in plain
-HTML5, CSS3 and vanilla JavaScript (no frameworks, no build step). Built from
-your uploaded homepage HTML export plus the Home/About screenshots.
+HTML5, CSS3 and vanilla JavaScript (no frameworks, no build step), now using
+**real photos and the real logo** supplied in your assets pack.
 
-## What's included
+## Pages
 
-| Page | Status |
+| Page | Notes |
 |---|---|
-| `index.html` (Home) | Hero slider, "Every Child Counts" checklist, quote banner, "Create future with us" centre badges, 15-card services grid, events + auto-rotating testimonial carousel, video-placeholder story block, volunteer CTA, footer. |
-| `about.html` | Page banner, foundation intro, "Our Journey" timeline image, Mission/Vision, "What We Do", Directors grid (**hover** a card to see it highlight dark navy, per spec), sliding Team carousel with arrows + dots, services grid. |
-| `services.html` | Sticky left sidebar of 13 service tabs + a 3-column grid of service cards. Clicking a sidebar tab (or a card's "Read More") smooth-scrolls to and highlights the matching card and syncs the active tab; scroll-spy keeps the sidebar in sync as you scroll. Sidebar collapses to a horizontal scrollable bar under 992px. |
-| `gallery.html` | ALL / 2025 / 2022 filter buttons (vanilla JS show/hide), responsive photo grid with hover zoom-in-place. |
-| `csr-partnerships.html` | Hero, 13-card "Why Partner" grid, 4 CSR-opportunity pillars, alternating Infrastructure/Outreach image+checklist blocks, two-column compliance comparison, CSR projects table, and a Contact-info + Enquiry form split layout. |
-| `events.html` | "Upcoming Events" empty state, "Past Events" as a sliding carousel (date badges, arrows + dots). |
-| `contact.html` | Get-in-touch form (service dropdown, textarea), Address/Contact info cards, full-width Google Maps embed. |
-| `donate.html` | Simple donate CTA page (kept from the first pass — no screenshot supplied yet for a full redesign). |
+| `index.html` | Home — real hero banners (clickable, linking to About/Services), real "Every Child Counts" collage photos, real centre badges, 15-card services grid, real event-card photos, auto-rotating testimonial carousel, scroll-to-top button. |
+| `about.html` | Real about photo, real "Our Journey" infographic, real director photos (hover to highlight dark navy), and a **16-person Team carousel** with true seamless infinite looping in both directions. |
+| `services.html` | Sticky sidebar of 13 service tabs + a 3-column grid, each card now using its real service photo. Sidebar/card sync + scroll-spy unchanged. |
+| `gallery.html` | 15 real gallery photos in a tight, seamless collage grid (4px gaps) with ALL/2025/2022 filters and hover zoom. |
+| `csr-partnerships.html` | Real hero/infrastructure/outreach photos; icon grids (Why Partner / CSR Opportunities) intentionally stay icon-based, matching the original design. |
+| `events.html` | 6 real past events (posters + photos), including 2 read directly off the real event posters you supplied (SLD & WRAT Workshop, Blood Donation Drive) — sliding carousel with arrows + dots. |
+| `contact.html` | Form, address/contact cards, keyless Google Maps embed. |
+| `donate.html` | Rebuilt to match your Donation screenshot: First/Last name, Email/Phone (with live 0/10 counter), Address, City/State, ZIP/Country, Donation Purpose radios, PAN + amount-with-INR-suffix, message, Donate button. |
 
-Every page shares the same header, footer and icon sprite, and the same
-`css/styles.css` / `js/script.js`.
+## What changed in this pass
+
+1. **Header/top bar** — top contact bar is now dark navy (`--navy-dark`)
+   instead of white.
+2. **Real logos** — header uses `assets/img/sadbhaav-logo-transparent.png`;
+   footer uses `assets/img/sadbhaav-logo-white-bg.jpg`; both replace the
+   hand-drawn placeholder mark everywhere, including the favicon.
+3. **Footer rebuilt compact** — single top row (logo + address + email +
+   phone), a second row (nav links + social + Donate), then the copyright
+   line — matching your reference's height instead of the old tall 3-column
+   grid.
+4. **Text-overflow fix (global)** — `overflow-wrap`/`word-break` added to
+   all text elements and `min-width: 0` added to every grid/flex card
+   child, so long labels (e.g. "Psychoeducational Assessment",
+   "Prevocational & Vocational Skills") wrap inside their card instead of
+   spilling past the border, at every breakpoint.
+5. **Real images everywhere** — hero slides, home-page collage, centre
+   badges, about hero + "Our Journey" infographic, all 4 director photos,
+   all 13 service photos, CSR photos, event posters/photos, and all 15
+   gallery photos now use your real assets (resized + compressed from
+   ~30MB down to ~6MB total, no visible quality loss).
+6. **16 real team members** — your assets pack had photos for 12 people
+   beyond the original 4 named in the screenshots. All 16 are now in the
+   Team carousel; the 4 with confirmed titles keep their real titles, the
+   rest are labelled "Team Member" (or "ABA Therapist" for Priya, inferred
+   directly from her filename) rather than guessing credentials for real,
+   named people.
+7. **Infinite Team carousel** — rebuilt the carousel engine to support a
+   true seamless loop: the item set is cloned before/after itself, and the
+   carousel snaps invisibly across the clone boundary once a transition
+   finishes, so scrolling past the last card continues straight into the
+   first with no visible "snap back." Enabled via `data-infinite="true"`
+   on `about.html`'s Team carousel only (per spec); other carousels keep
+   simple modulo looping.
+8. **Gallery collage tightened** — grid gap dropped to 4px (from 18px),
+   4-column desktop grid, square aspect-ratio tiles, hover zoom kept with
+   fixed container size.
+9. **Donate page redesigned** — full form matching your new screenshot
+   exactly (see table above).
+10. **Scroll-to-top button** — a small floating button (bottom-right)
+    fades in after scrolling and smooth-scrolls back to top; injected by
+    `script.js` on every page, no HTML duplication needed.
 
 ## Structure
 
 ```
 site/
-├── index.html
-├── about.html
-├── services.html / events.html / gallery.html / csr-partnerships.html / contact.html / donate.html
-├── css/
-│   └── styles.css        — one shared stylesheet (variables, layout, components, responsive)
-├── js/
-│   └── script.js         — mobile menu, hero slider, testimonial/team sliders, director card
-│                            selection, active-nav-link highlighting, top-bar hide-on-scroll
-└── assets/
-    ├── images/           — logo + all photo/badge/avatar placeholders (SVG)
-    └── icons/sprite.svg  — reference copy of the icon set inlined at the top of every page
+├── index.html / about.html / services.html / gallery.html
+├── csr-partnerships.html / events.html / contact.html / donate.html
+├── css/styles.css        — one shared stylesheet
+├── js/script.js          — mobile menu, hero slider, infinite/looping
+│                            carousel engine, gallery filters, services
+│                            sidebar sync, scroll-to-top, donation form
+├── assets/icons/sprite.svg   — reference copy of the icon sprite
+│                                (also inlined at the top of every page)
+└── assets/img/            — all real photos/logos supplied in your
+                              assets pack, renamed descriptively and
+                              compressed for the web
 ```
 
-Every page inlines the same `<svg style="display:none">` icon sprite and the
-same header/footer markup (there's no server-side templating in a static
-vanilla site, so this is copy-pasted intentionally — keep it in sync if you
-hand-edit one page).
+## Known gaps / things to send next
 
-## About the images
-
-Your uploaded HTML/screenshots point at photos hosted on the live WordPress
-site, which this sandbox can't fetch. Every photo, avatar and badge is
-currently a lightweight **generated SVG placeholder** (soft gradient + icon +
-label) sized to match the original layout exactly, so swapping in the real
-files is a one-line change:
-
-```html
-<img src="assets/images/hero-slide-1.svg" alt="...">
-<!-- becomes -->
-<img src="assets/images/hero-slide-1.jpg" alt="...">
-```
-
-Just drop your real JPG/PNG files into `assets/images/` with matching names
-(or update the `src` paths) — no CSS changes needed, since all image
-containers are sized responsively, not to a fixed placeholder aspect ratio.
-
-## Colors & type (sampled from your screenshots)
-
-- Navy (headings): `#2c3374`
-- Footer navy: `#0a1245`
-- Orange (buttons/accents): `#f1ae44`
-- Body gray: `#6b6b6b`
-- Section gray background: `#f2f2f4`
-- Headings: Poppins (Google Fonts) · Body: Open Sans (Google Fonts)
-
-## Running it
-
-No build step — just open `index.html` in a browser, or serve the folder
-with any static server, e.g.:
-
-```
-python3 -m http.server 8000
-```
-
-## Known simplifications to revisit
-
-- "Our Journey" is a single generated SVG placeholder image (`assets/images/our-journey-placeholder.svg`)
-  standing in for the original infographic — swap the `<img>` src in `about.html`
-  for the real graphic whenever you have it.
-- All photos across every page (hero slides, service photos, gallery shots,
-  event thumbnails, director/team portraits, CSR imagery) are generated SVG
-  placeholders sized to match their containers exactly — see "About the
-  images" below for how to swap in real files.
-- The Services page reuses the sidebar-driven anchor/scroll-spy pattern the
-  live site uses (all cards render inline; a click scrolls + highlights the
-  matching card) rather than hiding/showing separate panels, since that's
-  what the screenshots show.
-- Contact and CSR enquiry forms are structured and validate client-side, but
-  aren't wired to a backend or payment gateway (none was provided) — they
-  show a confirmation note instead of actually sending data.
-- The Contact page map is a keyless Google Maps `output=embed` iframe
-  centered on "Jalaram Society, Piplod, Surat" — swap in an API-key'd embed
-  if you need custom pin styling.
-- `donate.html` is still the simple CTA page from the first pass — send a
-  screenshot whenever you have one and I'll match it exactly.
+- The "story from a parent" video block on the Home page still uses a
+  generated placeholder thumbnail (`assets/images/video-thumbnail.svg`) —
+  no matching real asset was in the pack. Send a real video/thumbnail and
+  I'll wire it in.
+- 4 of the 10 event photos you sent (`events-5/7/9/10.jpg`, all real
+  therapy/session candids) weren't a clean fit for the 6 named events on
+  the Events page and are sitting unused in `assets/img/` — happy to add
+  more event entries if you send titles/dates for them.
+- The CSR "Why Partner" (13-card) and "CSR Opportunities" (4-card) grids
+  intentionally stay icon-based rather than photo-based, matching the
+  original site's design in your screenshots.
+- Donate and Contact forms are structured and validate client-side but
+  aren't wired to Razorpay / a backend yet (none was provided).
