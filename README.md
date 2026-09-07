@@ -77,6 +77,33 @@ site/
                               compressed for the web
 ```
 
+## Round 4: pixel-matching pass against mentor's reference screenshots
+
+1. **Top bar** — corrected to dark grey `#424242` (was accidentally navy from
+   an earlier round) — sampled directly from the reference.
+2. **Logo** — sized up (46px → 64px tall) so it fills the header the way the
+   reference does; it was already a single image with no separate text.
+3. **Hamburger** — confirmed/locked to the right edge of the header; the
+   Donate button is now hidden from the compact mobile header row (it
+   reappears as the first item inside the slide-out menu) so the mobile
+   header is a clean Logo↔Hamburger row.
+4. **Cards, everywhere** — padding and icon sizes shrunk across
+   `.service-card`, `.info-card` ("What We Do" / CSR Opportunities),
+   and the CSR 13-icon grid. Grid breakpoints now collapse to a single,
+   short, wide ("horizontal") card per row much earlier (860px) instead of
+   staying multi-column-and-tall — this was also silently fixed a
+   duplicate/conflicting media-query rule that had been quietly re-widening
+   `.csr-pillars` back to 2 columns.
+5. **Text overflow** — removed the overly-aggressive `word-break` that was
+   causing ugly mid-word splits (e.g. "Psychoeducation / al Assessment");
+   `overflow-wrap` alone remains as a safety net.
+6. **Gallery** — rebuilt as a true masonry/collage (CSS multi-column,
+   natural image aspect ratios, 6px gaps) instead of a uniform square grid.
+7. **Contact page** — Address/Contact now stack as full-width grey blocks
+   (2-col desktop → 1-col mobile) instead of two boxed cards side by side.
+8. **Mobile flyout menu** — added the divider lines between items and
+   bumped link weight/size to match the reference's list style exactly.
+
 ## Known gaps / things to send next
 
 - The "story from a parent" video block on the Home page still uses a
