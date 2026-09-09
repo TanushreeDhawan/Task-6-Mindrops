@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initScrollTopButton();
   document.querySelectorAll(".carousel").forEach(initCarousel);
   initGalleryFilters();
-  initServiceSidebar();
   initDonationForm();
 });
 
@@ -352,61 +351,6 @@ function initGalleryFilters() {
       });
     });
   });
-}
-
-/* ---------------- Services page: sidebar <-> content sync ---------------- */
-function initServiceSidebar() {
-  const tabs = document.querySelectorAll(".service-sidebar .service-tab");
-  const cards = document.querySelectorAll(".service-grid-panel .service-detail-card");
-  if (!tabs.length || !cards.length) return;
-
-  function setActiveTab(id) {
-    tabs.forEach((t) => t.classList.toggle("is-active", t.dataset.target === id));
-  }
-
-  function highlightCard(card) {
-    cards.forEach((c) => c.classList.remove("is-highlighted"));
-    card.classList.add("is-highlighted");
-    setTimeout(() => card.classList.remove("is-highlighted"), 1600);
-  }
-
-  function goToService(id) {
-    const card = document.getElementById(id);
-    if (!card) return;
-    setActiveTab(id);
-    highlightCard(card);
-    const headerOffset = 90;
-    const top = card.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-    window.scrollTo({ top, behavior: "smooth" });
-  }
-
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", (e) => {
-      e.preventDefault();
-      goToService(tab.dataset.target);
-    });
-  });
-
-  document.querySelectorAll("[data-readmore]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      goToService(btn.dataset.readmore);
-    });
-  });
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveTab(entry.target.id);
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
-    );
-    cards.forEach((card) => observer.observe(card));
-  }
-
-  setActiveTab(tabs[0].dataset.target);
 }
 
 /* ---------------- Simple demo form handler (no backend wired) ---------------- */
